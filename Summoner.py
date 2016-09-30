@@ -1,15 +1,20 @@
+from RiotAPI import *
+
+
 class Summoner:
 
-	def __init__(self,name,username,mmr,duo=None,inTeam=False):
-		self.name = name
+	def __init__(self,username):
+		SummonerStats = RiotAPI.findByUsername(username)
 		self.username = username
-		self.mmr = mmr
-		self.duo = duo
-		self.inTeam = inTeam
+		self.id = SummonerStats[username]['id']
+		self.summonerLevel = SummonerStats[username]["summonerLevel"]
 
 	def addDuo(self, duoPartner):
-		self.inTeam = True
-		self.duo = duoPartner
+		if(self.duo == None):
+			self.inTeam = True
+			self.duo = duoPartner
+		else:
+			print("Already Contains Duo: " + self.duo)
 
 	def changeDuo(self, duoPartner):
 		self.duo = duoPartner
@@ -18,4 +23,7 @@ class Summoner:
 		self.duo = None
 
 	def __str__(self):
-		return self.name + " " + self.username + " " + str(self.mmr) + " " + str(self.inTeam)
+		return self.username + " " +  str(self.id) + " " + str(self.summonerLevel)
+
+User = Summoner("xavidram")
+print(User)
