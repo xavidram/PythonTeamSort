@@ -1,11 +1,12 @@
 from requests import *
+import time
 import json
 
 
 ## GLOBALS ##
 REGION = "na" #NA by default, can be changed
 URL = "https://" + REGION + ".api.pvp.net"
-APIKEY = "User API KEY HERE"
+APIKEY = "RGAPI-0364e714-7e66-4567-aa8b-5ce65ae1620f"
 RateLimit_perMin = "500" #500 Requests per 10 Minutes
 RateLimit_perSec = "10" #10 requests per second
 OPGG_BaseURL = ".op.gg/"
@@ -233,8 +234,19 @@ with open("players.txt", 'r') as f:
 
 PlayerList = Playerlist()
 
-for player in players:
-	print(player)
-	PlayerList.addPlayer(player.strip('\n'))
+#for player in players:
+#	print(player)
+#	PlayerList.addPlayer(player.strip('\n'))
 
-print(PlayerList)
+j = 0
+for i in range(0,len(players)):
+	if(j < 10):
+		j += 1
+		#print(players[i])
+		try:
+			PlayerList.addPlayer(players[i].strip('\n'))
+		except Exception as e:
+			print(str(e))
+	else:
+		j = 0
+		time.sleep(10)
