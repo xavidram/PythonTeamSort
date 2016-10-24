@@ -22,3 +22,6 @@ for i in range(0,len(players)):
 	else:
 		j = 0
 		time.sleep(10)
+
+#PlayerList.printList()
+teams = PlayerList.createTeams()

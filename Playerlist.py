@@ -1,5 +1,8 @@
 from Team import *
 from Summoner import *
+import random
+from datetime import datetime
+import time
 
 
 class Playerlist:
@@ -22,35 +25,44 @@ class Playerlist:
 				return
 
 	def createTeams(self):
-		sort(self.players)
+		sorted(self.players)
 		self.extras = list()
-		teams = makeTeams()
-		return teams
+		return self.makeTeams()
+		
 
-	def __str__(self):
+	def printList(self):
 		for player in self.players:
 			print(player)
 
 	def makeTeams(self):
 		extrasCount = self.count % self.teamSize
-		numTeams = self.count / self.teamSize
+		numTeams = int(self.count / self.teamSize)
 
 		for i in range(0,extrasCount):
 			random.seed(datetime.now())
-			rNum = random.uniform(0,time.time()) % self.count
+			rNum = int(random.uniform(0,time.time()) % self.count)
 			self.extras.append(self.players[rNum])
 			self.players.pop(rNum)
 
 		teams = list()
 		fullTeams = list()
 
+		#Generate blank team slots
+		for t in range(0,numTeams-1):
+			teams.append(Team(None,0))
+
+		print(self.teamSize)
+
 		for i in range(0,self.count):
 			if self.players[i].inTeam == False:
 				#move full teams to full team list.
-				for j in range(0,self.teamSize):
+				for j in range(0,len(teams)):
+					print(j)
 					if teams[j].count == self.teamSize:
+						teams[j].printTeam()
 						fullTeams.append(teams[j])
-						teams.remove(j)
+						teams.remove(teams[j])
+						numTeams -= 1
 
 				spacefound = False
 
@@ -58,11 +70,11 @@ class Playerlist:
 					if self.teamSize - teams[k].count >= 2:
 						spacefound = True
 
-				if spacefound | self.players[i].duo == None:
+				if spacefound or self.players[i].duo == None:
 					jMin = 0
 					jOldMin = 0
 
-					for l in range(1,len(teams)):
+					for l in range(1,len(teams)-1):
 						x = teams[jMin].mmr
 						y = teams[l].mmr
 
@@ -70,7 +82,7 @@ class Playerlist:
 							jOldMin = jMin;
 							jMin = l
 
-					teams[jMin].add(self.players(i))
+					teams[jMin].add(self.players[i])
 
 				else:
 					temp = list()

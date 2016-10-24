@@ -20,6 +20,6 @@ class OPGG:
 			if "MMRBox Box" in lines[0]:
 				return lines[4].strip().replace(",","")
 			else:
-				return "Unranked"
+				return "940"
 		except:
 			print("Error with user: " + username)
