@@ -9,9 +9,11 @@ class Team:
 		self.mmr = self.mmrcal(players) if players != None else 0
 
 	def mmrcal(self,players):
-		self.mmr = 0
+		mmr = 0
 		for player in players:
-			self.mmr += player.mmr
+			mmr += int(player.mmr)
+		return mmr
+
 
 	def add(self, player):
 		if player not in self.players:
@@ -20,9 +22,6 @@ class Team:
 				self.mmr += int(player.mmr)
 				player.inTeam = True
 				self.players.append(player)
-				if player.duo != None:
-					self.mmr += 25
-					add(player.duo)
 
 	def remove(self, player):
 		if player in self.players:
@@ -37,6 +36,8 @@ class Team:
 		return self.mmr / self.count
 
 	def printTeam(self):
+		print("Team Members:")
 		for player in self.players:
 			print(player)
+		print("Team MMR: ",self.mmr)
 		print("------")

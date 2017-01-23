@@ -13,23 +13,9 @@ class Summoner:
 		self.name = SummonerStats[username]["name"]
 		self.mmr = OPGG.getMMR(self.name)
 		self.inTeam = False
-		self.duo = None
-
-	def addDuo(self, duoPartner):
-		if(self.duo == None):
-			self.inTeam = False
-			self.duo = duoPartner
-		else:
-			print("Already Contains Duo: " + self.duo)
-
-	def changeDuo(self, duoPartner):
-		self.duo = duoPartner
-
-	def removeDuo(self):
-		self.duo = None
 
 	def __str__(self):
-		return self.username + " " +  str(self.id) + " " + str(self.summonerLevel) + " " + self.mmr
+		return self.username + " " +  str(self.id) + " " + str(self.summonerLevel) + " " + str(self.mmr)
 
 	#Overloading comparison operators for sorting #
 	def __lt__(self, summoner2):

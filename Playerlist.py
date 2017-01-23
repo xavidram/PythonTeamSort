@@ -3,7 +3,11 @@ from Summoner import *
 import random
 from datetime import datetime
 import time
+from random import shuffle
+import numpy
 
+def getkey(object):
+	return object.mmr
 
 class Playerlist:
 
@@ -11,6 +15,8 @@ class Playerlist:
 		self.count = count
 		self.players = list()
 		self.teamSize = teamSize
+		self.numTeams = 0
+		self.Teams = None
 
 
 	def addPlayer(self, username):
@@ -29,6 +35,9 @@ class Playerlist:
 		self.extras = list()
 		return self.makeTeams()
 		
+	def printTeams(self):
+		for i in range(0,self.numTeams):
+			self.Teams[i].printTeam()
 
 	def printList(self):
 		for player in self.players:
@@ -38,95 +47,56 @@ class Playerlist:
 		extrasCount = self.count % self.teamSize
 		numTeams = int(self.count / self.teamSize)
 
+		self.extras = list()
+
 		for i in range(0,extrasCount):
 			random.seed(datetime.now())
 			rNum = int(random.uniform(0,time.time()) % self.count)
 			self.extras.append(self.players[rNum])
 			self.players.pop(rNum)
 
-		teams = list()
-		fullTeams = list()
+		#print extras
+		for x in self.extras:
+			print(x)
+		
+		players = sorted(self.players,reverse=True)
+		for player in players:
+			print(player)
 
-		#Generate blank team slots
-		for t in range(0,numTeams-1):
-			teams.append(Team(None,0))
+		Teams = list()
+		for i in range(0,numTeams):
+			Teams.append(Team([players[0]],1))
+			players.pop(0)
 
-		print(self.teamSize)
+		for i in range(0,len(players)):
+			
 
-		for i in range(0,self.count):
-			if self.players[i].inTeam == False:
-				#move full teams to full team list.
-				for j in range(0,len(teams)):
-					print(j)
-					if teams[j].count == self.teamSize:
-						teams[j].printTeam()
-						fullTeams.append(teams[j])
-						teams.remove(teams[j])
-						numTeams -= 1
+		self.Teams = Teams
+		self.numTeams = numTeams
 
-				spacefound = False
+	def makeTeams_old(self):
+		extrasCount = self.count % self.teamSize
+		numTeams = int(self.count / self.teamSize)
 
-				for k in range(0, self.teamSize):
-					if self.teamSize - teams[k].count >= 2:
-						spacefound = True
+		self.extras = list()
 
-				if spacefound or self.players[i].duo == None:
-					jMin = 0
-					jOldMin = 0
+		for i in range(0,extrasCount):
+			random.seed(datetime.now())
+			rNum = int(random.uniform(0,time.time()) % self.count)
+			self.extras.append(self.players[rNum])
+			self.players.pop(rNum)
 
-					for l in range(1,len(teams)-1):
-						x = teams[jMin].mmr
-						y = teams[l].mmr
+		#print extras
+		for x in self.extras:
+			print(x)
+		
+		# Jumble up the players
+		shuffle(self.players)
+		players = self.players
 
-						if(x < y):
-							jOldMin = jMin;
-							jMin = l
+		Teams = list()
+		for i in range(0,len(players),5):
+			Teams.append(Team(players[i:i+5],5))
 
-					teams[jMin].add(self.players[i])
-
-				else:
-					temp = list()
-					for team in teams:
-						temp.add(team)
-
-					teamMin = 0
-					teamMin2 = 0
-
-					for m in range(1, len(temp)):
-						hasNonDuo = False
-						for player in temp[m].players:
-							if player.duo == None:
-								hasNonDuo = True
-
-						if hasNonDuo:
-							xx = temp[teamMin].mmr
-							yy = temp[m].mmr
-							zz = temp[teamMin2].mmr
-
-							if yy < xx:
-								teamMin2 = teamMin
-								teamMin = k
-
-					lowestTeam = temp[teamMin]
-					secondLowest = temp[teamMin2]
-
-					target = self.players[i].mmr
-					closest = lowestTeam.count - 1
-
-					for n in range(0, lowestTeam.count - 1):
-						if lowestTeam.players[n].duo == None:
-							diff = abs(lowestTeam.players[m].mmr - target)
-							closeDiff = abs(lowestTeam.players[closest].mmr - target)
-							if diff < closeDiff:
-								closest = n
-
-					moving = lowestTeam.players[closest]
-					lowestTeam.remove(moving)
-					moving.inTeam = False
-					secondLowest.add(moving)
-
-		if len(teams) > 0:
-			for team in teams:
-				fullTeams.append(team)
-
-		return fullTeams
+		self.Teams = Teams
+		self.numTeams = numTeams

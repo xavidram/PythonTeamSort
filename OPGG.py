@@ -18,8 +18,8 @@ class OPGG:
 		lines = pageContent.text.splitlines()
 		try:
 			if "MMRBox Box" in lines[0]:
-				return lines[4].strip().replace(",","")
+				return int(lines[5].strip().replace(",",""))
 			else:
-				return "940"
+				return 940
 		except:
 			print("Error with user: " + username)
