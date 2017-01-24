@@ -30,7 +30,7 @@ class parser(HTMLParser):
 
 class LOLKING:
 
-	def getMMR(summoner):
+	def getLKScore(summoner):
 		if ' ' in summoner.username:
 			summoner.username = summoner.username.replace(" ","%20")
 		pageContent = get("http://"
@@ -48,4 +48,4 @@ class LOLKING:
 
 player = Summoner('xavidram')
 
-print(LOLKING.getMMR(player))
+print(LOLKING.getLKScore(player))
