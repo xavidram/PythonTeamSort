@@ -4,7 +4,7 @@ class Team:
 
 	def __init__(self, players=None,count=0):
 		self.players = players if players != None else []
-		self.count = len(players) if count > 0 else 0
+		self.count = count
 		#self.count = len(players)
 		self.mmr = self.mmrcal(players) if players != None else 0
 
@@ -16,7 +16,15 @@ class Team:
 
 
 	def add(self, player):
-		if player not in self.players:
+		#Due to the overload of comparison operators for
+		#sorting, __eq__ marks true due to mmr calculations
+		#so implementing a bruteforce check
+		exists = False
+		for p in self.players:
+			if player.username == p.username:
+				exists = True
+
+		if exists == False:
 			if self.count < 5:
 				self.count += 1
 				self.mmr += int(player.mmr)
@@ -41,3 +49,22 @@ class Team:
 			print(player)
 		print("Team MMR: ",self.mmr)
 		print("------")
+
+			#Overloading comparison operators for sorting #
+	def __lt__(self, Team2):
+		return True if self.mmr <  Team2.mmr else False
+
+	def __gt__(self, Team2):
+		return True if self.mmr >  Team2.mmr else False
+
+	def __le__(self, Team2):
+		return True if self.mmr <= Team2.mmr else False
+
+	def __ge__(self, Team2):
+		return True if self.mmr >= Team2.mmr else False
+
+	def __eq__(self, Team2):
+		return True if self.mmr == Team2.mmr else False
+
+	def __ne__(self, Team2):
+		return True if self.mmr != Team2.mmr else False

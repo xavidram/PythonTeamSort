@@ -44,6 +44,8 @@ class Playerlist:
 			print(player)
 
 	def makeTeams(self):
+		print('\n')
+		
 		extrasCount = self.count % self.teamSize
 		numTeams = int(self.count / self.teamSize)
 
@@ -55,21 +57,20 @@ class Playerlist:
 			self.extras.append(self.players[rNum])
 			self.players.pop(rNum)
 
-		#print extras
-		for x in self.extras:
-			print(x)
-		
+		print(len(self.players))
 		players = sorted(self.players,reverse=True)
-		for player in players:
-			print(player)
+		print(numTeams)
 
 		Teams = list()
 		for i in range(0,numTeams):
 			Teams.append(Team([players[0]],1))
 			players.pop(0)
 
-		for i in range(0,len(players)):
-			
+		for p in players:
+			Teams = sorted(Teams)
+			Teams[0].add(p)
+
+
 
 		self.Teams = Teams
 		self.numTeams = numTeams
@@ -87,6 +88,7 @@ class Playerlist:
 			self.players.pop(rNum)
 
 		#print extras
+		print("Extra Players:")
 		for x in self.extras:
 			print(x)
 		

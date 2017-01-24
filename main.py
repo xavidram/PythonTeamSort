@@ -28,4 +28,5 @@ for player in players:
 #PlayerList.printList()
 teams = PlayerList.createTeams()
 
+print("Teams\n")
 PlayerList.printTeams()
