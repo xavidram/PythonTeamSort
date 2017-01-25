@@ -1,4 +1,5 @@
 from requests import *
+from lxml import html
 
 
 ## GLOBALS ##
@@ -8,7 +9,7 @@ OPGG_mmrURL = "summoner/ajax/mmr/summonerName="
 OPGG_PROFILE = "summoner/userName="
 ## END GLOBALS ##
 
-
+#http://na.op.gg/summoner/userName=xavidram
 
 class OPGG:
 
@@ -29,20 +30,15 @@ class OPGG:
 		if '' in username:
 			username = username.replace(" ","%20")
 
-		pageContent = get("https://" + REGION + OPGG_PROFILE + username)
-		lines = pageContent.text.splitlines()
+		pageContent = get("http://" + REGION + OPGG_BaseURL + OPGG_PROFILE + username)
+		
+		#lines = pageContent.text.splitlines()
 		try:
-			tags = []
-			i=0
-			for line in lines:
-				if 'Item tip' in line:
-					tag.append(line)
-
-			for t in tag:
-				print(t)
-
+			tree = html.fromstring(pageContent.content)
+			itemTip = tree.xpath('//li[@class="Item tip"]/text()')
+			print(itemTip)
 		except Exception as e:
 			print(str(e))
 
 
-print(OPGG.getMMR_Past("xavidram"))
+OPGG.getMMR_Past("xavidram")

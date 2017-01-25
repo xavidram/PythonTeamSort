@@ -57,9 +57,7 @@ class Playerlist:
 			self.extras.append(self.players[rNum])
 			self.players.pop(rNum)
 
-		print(len(self.players))
 		players = sorted(self.players,reverse=True)
-		print(numTeams)
 
 		Teams = list()
 		for i in range(0,numTeams):
