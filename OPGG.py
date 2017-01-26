@@ -25,18 +25,24 @@ class OPGG:
 			else:
 				currentMMR = 940
 
-			return max(OPGG.getMMR_PastHighest(username),currentMMR)
+			pastMMR = OPGG.getMMR_PastHighest(username)
+
+			if pastMMR is None:
+				return currentMMR
+			else:
+				return max(pastMMR,currentMMR)
+
 		except Exception as e:
 			print("Error with user: " + username)
 			print(str(e))
 
 	@staticmethod
 	def getMMR_PastHighest(username):
-		if '' in username:
-			username = username.replace(" ","%20")
+		#if '' in username:
+		#	username = username.replace(" ","%20")
 
 		pageContent = get("http://" + REGION + OPGG_BaseURL + OPGG_PROFILE + username).text
-		
+		error = "None"
 		#lines = pageContent.text.splitlines()
 		try:
 			parsed_html = BeautifulSoup(pageContent,"html.parser")
@@ -48,10 +54,16 @@ class OPGG:
 
 			s_pastMMR = sorted(pastMMR,reverse=True)
 		
-			return s_pastMMR[0].mmr
+			#return s_pastMMR[0].mmr
 				
 		except Exception as e:
+			error = "NotFound"
 			print(str(e))
+
+		if "None" in error:
+			return s_pastMMR[0].mmr
+		else:
+			return 0
 
 def getkey(object):
 	return object.mmr
@@ -140,5 +152,3 @@ class MMR:
 
 	def __ne__(self, mmr2):
 		return True if self.mmr != mmr2.mmr else False
-
-print(OPGG.getMMR("xavidram"))
