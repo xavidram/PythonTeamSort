@@ -108,7 +108,7 @@ def calculateMMR(rank):
 			return int(values.get(rank[0]).get("Low"))
 	else:
 		if(len(rank) > 2):
-			return int(values.get(rank[0]).get(rank[1]).get("Low")) + int(rank[2]).strip("LP")
+			return int(values.get(rank[0]).get(rank[1]).get("Low")) + int(rank[2].strip("LP"))
 		else:
 			return int(values.get(rank[0]).get(rank[1]).get("Low"))
 
