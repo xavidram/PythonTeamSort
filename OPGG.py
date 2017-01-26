@@ -10,36 +10,28 @@ OPGG_PROFILE = "summoner/userName="
 ## END GLOBALS ##
 
 #http://na.op.gg/summoner/userName=xavidram
-
-class MMR:
-
-	def __init__(self, season=None,mmr=0,rank="Unranked"):
-		self.season = season
-		self.mmr = mmr
-		self.rank = rank
-
-	def __str__(self):
-		return self.season + " " + str(self.rank) + " MMR: " + str(self.mmr)
-
-	def printObject(self):
-		print(self.season , str(self.rank) , " MMR: " , str(self.mmr))
-
 class OPGG:
 
+	@staticmethod
 	def getMMR(username):
 		if ' ' in username:
 			username = username.replace(" ","%20")
 		pageContent = get("http://"+ REGION + OPGG_BaseURL + OPGG_mmrURL + username)
 		lines = pageContent.text.splitlines()
 		try:
+			currentMMR = 0
 			if "MMRBox Box" in lines[0]:
-				return int(lines[5].strip().replace(",",""))
+				currentMMR = int(lines[5].strip().replace(",",""))
 			else:
-				return 940
-		except:
-			print("Error with user: " + username)
+				currentMMR = 940
 
-	def getMMR_Past(username):
+			return max(OPGG.getMMR_PastHighest(username),currentMMR)
+		except Exception as e:
+			print("Error with user: " + username)
+			print(str(e))
+
+	@staticmethod
+	def getMMR_PastHighest(username):
 		if '' in username:
 			username = username.replace(" ","%20")
 
@@ -53,12 +45,16 @@ class OPGG:
 			for s in pastSeasons:
 				rank = s.get("title").split(" ")
 				pastMMR.append(MMR(s.b.contents,calculateMMR(rank),''.join([rank[0],rank[1]])))
+
+			s_pastMMR = sorted(pastMMR,reverse=True)
 		
-			for x in pastMMR:
-				x.printObject()
+			return s_pastMMR[0].mmr
 				
 		except Exception as e:
 			print(str(e))
+
+def getkey(object):
+	return object.mmr
 
 def calculateMMR(rank):
 	values = {
@@ -112,5 +108,37 @@ def calculateMMR(rank):
 		else:
 			return int(values.get(rank[0]).get(rank[1]).get("Low"))
 
+class MMR:
 
-OPGG.getMMR_Past("sts")
+	def __init__(self, season=None,mmr=0,rank="Unranked"):
+		self.season = season
+		self.mmr = mmr
+		self.rank = rank
+
+	def __str__(self):
+		return self.season + " " + str(self.rank) + " MMR: " + str(self.mmr)
+
+	def printObject(self):
+		print(self.season , str(self.rank) , " MMR: " , str(self.mmr))
+
+	
+			#Overloading comparison operators for sorting #
+	def __lt__(self, mmr2):
+		return True if self.mmr <  mmr2.mmr else False
+
+	def __gt__(self, mmr2):
+		return True if self.mmr >  mmr2.mmr else False
+
+	def __le__(self, mmr2):
+		return True if self.mmr <= mmr2.mmr else False
+
+	def __ge__(self, mmr2):
+		return True if self.mmr >= mmr2.mmr else False
+
+	def __eq__(self, mmr2):
+		return True if self.mmr == mmr2.mmr else False
+
+	def __ne__(self, mmr2):
+		return True if self.mmr != mmr2.mmr else False
+
+print(OPGG.getMMR("xavidram"))
