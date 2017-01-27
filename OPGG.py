@@ -27,10 +27,10 @@ class OPGG:
 
 			pastMMR = OPGG.getMMR_PastHighest(username)
 
-			if pastMMR is None:
-				return currentMMR
-			else:
-				return max(pastMMR,currentMMR)
+			print(username,"Current MMR: ",currentMMR)
+			print(username,"Past MMR: ",pastMMR)
+
+			return max(pastMMR,currentMMR)
 
 		except Exception as e:
 			print("Error with user: " + username)
@@ -53,14 +53,12 @@ class OPGG:
 				pastMMR.append(MMR(s.b.contents,calculateMMR(rank),''.join([rank[0],rank[1]])))
 
 			s_pastMMR = sorted(pastMMR,reverse=True)
-		
-			#return s_pastMMR[0].mmr
 				
 		except Exception as e:
 			error = "NotFound"
 			print(str(e))
 
-		if "None" in error:
+		if "None" in error and len(s_pastMMR) > 0:
 			return s_pastMMR[0].mmr
 		else:
 			return 0
@@ -152,3 +150,5 @@ class MMR:
 
 	def __ne__(self, mmr2):
 		return True if self.mmr != mmr2.mmr else False
+
+#OPGG.getMMR_PastHighest("wotter power")

@@ -59,16 +59,19 @@ class Playerlist:
 
 		players = sorted(self.players,reverse=True)
 
+		#set the team captains
 		Teams = list()
 		for i in range(0,numTeams):
 			Teams.append(Team([players[0]],1))
 			players.pop(0)
 
+		#add highest player left in list to team with lowest total mmr
+		#shuffle(players)
 		for p in players:
 			Teams = sorted(Teams)
 			Teams[0].add(p)
 
-
+		#start rebalancing
 
 		self.Teams = Teams
 		self.numTeams = numTeams
