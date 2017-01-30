@@ -1,3 +1,9 @@
+"""
+	Author: Xavid Ramirez
+	Email: xavid.ramirez01@utrgv.edu
+	Last Edit: January 30 2017
+	License: MIT
+"""
 from Team import *
 from Summoner import *
 import random
@@ -7,10 +13,11 @@ from random import shuffle
 import numpy
 
 def getkey(object):
+	""" Returns object key mmr value """
 	return object.mmr
 
 class Playerlist:
-
+	"""List of players class for sorting and creating teams"""
 	def __init__(self, count=0, teamSize=5):
 		self.count = count
 		self.players = list()
@@ -20,10 +27,12 @@ class Playerlist:
 
 
 	def addPlayer(self, username):
+		"""Add player to list, increment player count"""
 		self.players.append(Summoner(username))
 		self.count += 1
 
 	def removePlayer(self, username):
+		""" Remove player for list, decrement player count """
 		for player in self.players:
 			if username in self.username:
 				self.players.remove(player)
@@ -44,6 +53,7 @@ class Playerlist:
 			print(player)
 
 	def getAverageTeamMMR(self):
+		""" Return the average mmr for team """
 		avg = 0
 		for T in self.Teams:
 			avg += T.mmr
@@ -57,6 +67,7 @@ class Playerlist:
 
 		self.extras = list()
 
+		""" Randomly select the extras """
 		for i in range(0,extrasCount):
 			random.seed(datetime.now())
 			rNum = int(random.uniform(0,time.time()) % self.count)

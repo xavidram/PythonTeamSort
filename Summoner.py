@@ -1,8 +1,14 @@
+"""
+	Author: Xavid Ramirez
+	Email: xavid.ramirez01@utrgv.edu
+	Last Edit: January 30 2017
+	License: MIT
+"""
 from RiotAPI import *
 from OPGG import *
 
 class Summoner:
-
+	""" Class of summoner, will hold player data"""
 	def __init__(self,username):
 		username = username.lower().replace(" ", "")
 		SummonerStats = RiotAPI.findByUsername(username)

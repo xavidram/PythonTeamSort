@@ -1,7 +1,7 @@
 from Summoner import *
 
 class Team:
-
+	""" Will host list of Summoners as a team for sorting"""
 	def __init__(self, players=None,count=0):
 		self.players = players if players != None else []
 		self.count = count
@@ -13,8 +13,7 @@ class Team:
 		for player in players:
 			mmr += int(player.mmr)
 		return mmr
-
-
+	
 	def add(self, player):
 		#Due to the overload of comparison operators for
 		#sorting, __eq__ marks true due to mmr calculations

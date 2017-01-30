@@ -1,6 +1,11 @@
+"""
+	Author: Xavid Ramirez
+	Email: xavid.ramirez01@utrgv.edu
+	Last Edit: January 30 2017
+	License: MIT
+"""
 from requests import *
 from bs4 import BeautifulSoup
-
 
 ## GLOBALS ##
 REGION = "na" #NA by default, can be changed
@@ -9,11 +14,20 @@ OPGG_mmrURL = "summoner/ajax/mmr/summonerName="
 OPGG_PROFILE = "summoner/userName="
 ## END GLOBALS ##
 
-#http://na.op.gg/summoner/userName=xavidram
+#http://na.op.gg/summoner/userName=username
 class OPGG:
 
 	@staticmethod
 	def getMMR(username):
+		"""
+			Will return the highest mmr from user.
+
+			Typical use:
+				try:
+					usermmr = OPGG.getMMR("username")
+				except Exception as e:
+					print(str(e))
+		"""
 		if ' ' in username:
 			username = username.replace(" ","%20")
 		pageContent = get("http://"+ REGION + OPGG_BaseURL + OPGG_mmrURL + username)
@@ -38,9 +52,15 @@ class OPGG:
 
 	@staticmethod
 	def getMMR_PastHighest(username):
-		#if '' in username:
-		#	username = username.replace(" ","%20")
+		"""
+			Will return the highest past mmr for user if any.
 
+			Typical use:
+				try:
+					OPGG.getMMR_PastHighest("username")
+				except Exception as e:
+					print(str(e))
+		"""
 		pageContent = get("http://" + REGION + OPGG_BaseURL + OPGG_PROFILE + username).text
 		error = "None"
 		#lines = pageContent.text.splitlines()
@@ -64,9 +84,20 @@ class OPGG:
 			return 0
 
 def getkey(object):
+	""" Returns object mmr for sorting """
 	return object.mmr
 
 def calculateMMR(rank):
+	"""
+		Returns the mmr based on the values set in the dictionary.
+
+		Params:
+			rank: takes an array of user rank info.
+				ex: rank = ["Bronze","5"]
+
+			values: Dict() of mmr values per teir.
+				ex: values["Bronze"]["5"]["Low"] will return 800
+	"""
 	values = {
 		"Bronze"	:	{
 			"5"	:	{"Low":	800,"High": 869},
@@ -119,7 +150,9 @@ def calculateMMR(rank):
 			return int(values.get(rank[0]).get(rank[1]).get("Low"))
 
 class MMR:
-
+	"""
+		Class MMR for calculating mmr values and sorting.
+	"""
 	def __init__(self, season=None,mmr=0,rank="Unranked"):
 		self.season = season
 		self.mmr = mmr
@@ -132,7 +165,7 @@ class MMR:
 		print(self.season , str(self.rank) , " MMR: " , str(self.mmr))
 
 	
-			#Overloading comparison operators for sorting #
+	#Overloading comparison operators for sorting #
 	def __lt__(self, mmr2):
 		return True if self.mmr <  mmr2.mmr else False
 
@@ -150,5 +183,3 @@ class MMR:
 
 	def __ne__(self, mmr2):
 		return True if self.mmr != mmr2.mmr else False
-
-#OPGG.getMMR_PastHighest("wotter power")
