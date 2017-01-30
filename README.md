@@ -35,7 +35,7 @@ It is only used to sort the players and put them into teams where they should ha
 
 * MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) 2017 Xavid Ramirez
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
