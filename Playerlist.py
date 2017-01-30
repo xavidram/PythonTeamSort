@@ -43,6 +43,12 @@ class Playerlist:
 		for player in self.players:
 			print(player)
 
+	def getAverageTeamMMR(self):
+		avg = 0
+		for T in self.Teams:
+			avg += T.mmr
+		return int(avg / self.numTeams)
+
 	def makeTeams(self):
 		print('\n')
 		
@@ -60,46 +66,13 @@ class Playerlist:
 		players = sorted(self.players,reverse=True)
 
 		#set the team captains
-		Teams = list()
+		self.Teams = list()
 		for i in range(0,numTeams):
-			Teams.append(Team([players[0]],1))
+			self.Teams.append(Team([players[0]],1))
 			players.pop(0)
 
 		#add highest player left in list to team with lowest total mmr
 		#shuffle(players)
-		for p in players:
-			Teams = sorted(Teams)
-			Teams[0].add(p)
 
 		#start rebalancing
-
-		self.Teams = Teams
-		self.numTeams = numTeams
-
-	def makeTeams_old(self):
-		extrasCount = self.count % self.teamSize
-		numTeams = int(self.count / self.teamSize)
-
-		self.extras = list()
-
-		for i in range(0,extrasCount):
-			random.seed(datetime.now())
-			rNum = int(random.uniform(0,time.time()) % self.count)
-			self.extras.append(self.players[rNum])
-			self.players.pop(rNum)
-
-		#print extras
-		print("Extra Players:")
-		for x in self.extras:
-			print(x)
-		
-		# Jumble up the players
-		shuffle(self.players)
-		players = self.players
-
-		Teams = list()
-		for i in range(0,len(players),5):
-			Teams.append(Team(players[i:i+5],5))
-
-		self.Teams = Teams
 		self.numTeams = numTeams
