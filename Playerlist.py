@@ -87,6 +87,10 @@ class Playerlist:
 			self.Teams = sorted(self.Teams,reverse=False)
 			self.Teams[0].add(p)
 		#shuffle(players)
-
+		#number the teams
+		n = 1
+		for T in  self.Teams:
+			T.name = ''.join(["Team ",str(n)])
+			n += 1 
 		#start rebalancing
 		self.numTeams = numTeams

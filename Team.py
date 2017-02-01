@@ -5,6 +5,7 @@ class Team:
 	def __init__(self, players=None,count=0):
 		self.players = players if players != None else []
 		self.count = count
+		self.name = None
 		#self.count = len(players)
 		self.mmr = self.mmrcal(players) if players != None else 0
 
@@ -43,10 +44,12 @@ class Team:
 		return self.mmr / self.count
 
 	def printTeam(self):
+		print("Team Name: ",self.name)
 		print("Team Members:")
 		for player in self.players:
 			print(player)
 		print("Team MMR: ",self.mmr)
+		print("Avg MMR:", int(self.mmr / 5))
 		print("------")
 
 			#Overloading comparison operators for sorting #
