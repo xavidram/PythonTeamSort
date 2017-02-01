@@ -41,8 +41,8 @@ class OPGG:
 
 			pastMMR = OPGG.getMMR_PastHighest(username)
 
-			print(username,"Current MMR: ",currentMMR)
-			print(username,"Past MMR: ",pastMMR)
+			#print(username,"Current MMR: ",currentMMR)
+			#print(username,"Past MMR: ",pastMMR)
 
 			return max(pastMMR,currentMMR)
 

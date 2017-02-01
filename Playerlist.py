@@ -83,6 +83,9 @@ class Playerlist:
 			players.pop(0)
 
 		#add highest player left in list to team with lowest total mmr
+		for p in players:
+			self.Teams = sorted(self.Teams,reverse=False)
+			self.Teams[0].add(p)
 		#shuffle(players)
 
 		#start rebalancing
