@@ -11,6 +11,7 @@ from datetime import datetime
 import time
 from random import shuffle
 import numpy
+import csv
 
 def getkey(object):
 	""" Returns object key mmr value """
@@ -51,6 +52,14 @@ class Playerlist:
 	def printList(self):
 		for player in self.players:
 			print(player)
+
+	def toCsv(self):
+		with open('Tournament.csv','w') as outfile:
+			writer = csv.writer(outfile,delimiter=",")
+			for T in self.Teams:
+				data = T.toCSVData()
+				writer.writerows(data)
+				writer.writerow([])
 
 	def getAverageTeamMMR(self):
 		""" Return the average mmr for team """

@@ -30,3 +30,4 @@ teams = PlayerList.createTeams()
 
 print("Teams\n")
 PlayerList.printTeams()
+PlayerList.toCsv()

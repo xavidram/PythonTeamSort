@@ -52,7 +52,17 @@ class Team:
 		print("Avg MMR:", int(self.mmr / 5))
 		print("------")
 
-			#Overloading comparison operators for sorting #
+	def toCSVData(self):
+		data = []
+		data.append(['Team Name:',str(self.name)])
+		data.append(['Team Members:','MMR'])
+		for p in self.players:
+			data.append([str(p.username),str(p.mmr)])
+		data.append(["Team MMR:",str(self.mmr)])
+		data.append(["Avg Team MMR:",str(int(self.mmr/5))])
+		return data
+
+	#Overloading comparison operators for sorting #
 	def __lt__(self, Team2):
 		return True if self.mmr <  Team2.mmr else False
 
