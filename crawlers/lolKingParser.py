@@ -5,9 +5,7 @@
 	License: MIT
 """
 from html.parser import HTMLParser
-from RiotAPI import *
 from requests import *
-from Summoner import *
 
 # CONSTANTS
 DEFAULT_REGION = 'na'

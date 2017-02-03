@@ -4,14 +4,11 @@
 	Last Edit: January 30 2017
 	License: MIT
 """
-from Team import *
-from Summoner import *
-import random
 from datetime import datetime
-import time
 from random import shuffle
-import numpy
-import csv
+from models.Team import *
+from models.Summoner import *
+import random, time, numpy, csv
 
 def getkey(object):
 	""" Returns object key mmr value """

@@ -1,4 +1,4 @@
-from Summoner import *
+from models.Summoner import *
 
 class Team:
 	""" Will host list of Summoners as a team for sorting"""
@@ -6,7 +6,6 @@ class Team:
 		self.players = players if players != None else []
 		self.count = count
 		self.name = None
-		#self.count = len(players)
 		self.mmr = self.mmrcal(players) if players != None else 0
 
 	def mmrcal(self,players):

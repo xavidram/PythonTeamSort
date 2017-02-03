@@ -4,8 +4,8 @@
 	Last Edit: January 30 2017
 	License: MIT
 """
-from RiotAPI import *
-from OPGG import *
+from APIS.RiotAPI import *
+from crawlers.OPGG import *
 
 class Summoner:
 	""" Class of summoner, will hold player data"""
