@@ -21,7 +21,7 @@ class Summoner:
 		self.inTeam = False
 
 	def __str__(self):
-		return self.username + " " +  str(self.id) + " " + str(self.summonerLevel) + " " + str(self.mmr)
+		return self.username.ljust(18,' ') +  str(self.mmr).ljust(6,' ')
 
 	#Overloading comparison operators for sorting #
 	def __lt__(self, summoner2):

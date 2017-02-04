@@ -1,3 +1,9 @@
 *.py[cod]
 __pycache__/
 *.csv
+*.csv
+build/
+dist/
+TeamSorterSTS
+*.ico
+*.png

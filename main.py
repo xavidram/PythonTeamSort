@@ -7,9 +7,8 @@ def main():
 
 	PlayerList = Playerlist()
 
-	#for player in players:
-	#	print(player)
-	#	PlayerList.addPlayer(player.strip('\n'))
+	print("Players not found in Riot Database for North America:")
+
 	j = 0
 	for player in players:
 		#make sure we dont exceed request limit from temp api
@@ -24,11 +23,16 @@ def main():
 			PlayerList.addPlayer(player.strip('\n'))
 		except Exception as e:
 			print(str(e))
-	#PlayerList.printList()
-	teams = PlayerList.createTeams()
+	
+	#Create the Teams
+	PlayerList.createTeams()
 
-	print("Teams\n")
+	print("Teams:")
+	print("-----------------------")
+
+	#print out all the teams
 	PlayerList.printTeams()
+	#convert output to csv
 	PlayerList.toCsv()
 
 if __name__ == '__main__':

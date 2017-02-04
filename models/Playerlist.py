@@ -22,12 +22,13 @@ class Playerlist:
 		self.teamSize = teamSize
 		self.numTeams = 0
 		self.Teams = None
-
+		self.PlayersMMR = 0
 
 	def addPlayer(self, username):
 		"""Add player to list, increment player count"""
 		self.players.append(Summoner(username))
 		self.count += 1
+		self.PlayersMMR += self.players[self.count-1].mmr
 
 	def removePlayer(self, username):
 		""" Remove player for list, decrement player count """
@@ -51,7 +52,7 @@ class Playerlist:
 			print(player)
 
 	def toCsv(self):
-		with open('Tournament.csv','w') as outfile:
+		with open('Tournament.csv','w',newline='') as outfile:
 			writer = csv.writer(outfile,delimiter=",")
 			for T in self.Teams:
 				data = T.toCSVData()
@@ -64,6 +65,9 @@ class Playerlist:
 		for T in self.Teams:
 			avg += T.mmr
 		return int(avg / self.numTeams)
+
+	def getAverageMMR(self):
+		return int(self.PlayersMMR / self.count)
 
 	def makeTeams(self):
 		print('\n')
@@ -82,6 +86,12 @@ class Playerlist:
 
 		players = sorted(self.players,reverse=True)
 
+		avgMMR = self.getAverageMMR()
+		mmrGoal = avgMMR * 5
+
+		print("AVG MMR: ",avgMMR)
+		print("MMR Goal: ", mmrGoal)		
+
 		#set the team captains
 		self.Teams = list()
 		for i in range(0,numTeams):
@@ -93,6 +103,7 @@ class Playerlist:
 			self.Teams = sorted(self.Teams,reverse=False)
 			self.Teams[0].add(p)
 		#shuffle(players)
+
 		#number the teams
 		n = 1
 		for T in  self.Teams:

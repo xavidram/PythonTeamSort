@@ -43,13 +43,13 @@ class Team:
 		return self.mmr / self.count
 
 	def printTeam(self):
-		print("Team Name: ",self.name)
-		print("Team Members:")
+		print(self.name.center(24,' '))
+		print("Team Members:     MMR")
 		for player in self.players:
 			print(player)
 		print("Team MMR: ",self.mmr)
 		print("Avg MMR:", int(self.mmr / 5))
-		print("------")
+		print("------------------------")
 
 	def toCSVData(self):
 		data = []
