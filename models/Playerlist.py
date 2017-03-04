@@ -75,14 +75,17 @@ class Playerlist:
 		extrasCount = self.count % self.teamSize
 		numTeams = int(self.count / self.teamSize)
 
-		self.extras = list()
-
-		""" Randomly select the extras """
-		for i in range(0,extrasCount):
-			random.seed(datetime.now())
-			rNum = int(random.uniform(0,time.time()) % self.count)
-			self.extras.append(self.players[rNum])
-			self.players.pop(rNum)
+		if extrasCount > 0:
+			print("Extra Players:")
+			self.extras = list()
+			""" Randomly select the extras """
+			with open("ExtraPlayers.txt",'w') as extras:
+				for i in range(0,extrasCount):
+					random.seed(datetime.now())
+					rNum = int(random.uniform(0,time.time()) % self.count)
+					self.extras.append(self.players[rNum])
+					extras.write(self.players[rNum].username)
+					self.players.pop(rNum)
 
 		players = sorted(self.players,reverse=True)
 

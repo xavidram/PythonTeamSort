@@ -7,7 +7,8 @@ def main():
 
 	PlayerList = Playerlist()
 
-	print("Players not found in Riot Database for North America:")
+	#users that were not found in riot database
+	errorUsers = list()
 
 	j = 0
 	for player in players:
@@ -22,8 +23,16 @@ def main():
 		try:
 			PlayerList.addPlayer(player.strip('\n'))
 		except Exception as e:
+			errorUsers.append(e)
 			print(str(e))
 	
+	if len(errorUsers) > 0:
+		print("Players not found in Riot Database for North America:")
+		with open("ErrorUsers.txt",'w') as errUsr:
+			for p in errorUsers:
+				print(p)
+				errUsr.write(p)
+
 	#Create the Teams
 	PlayerList.createTeams()
 
