@@ -10,7 +10,7 @@ import json
 ## GLOBALS ##
 REGION = "na" #NA by default, can be changed
 URL = "https://" + REGION + ".api.pvp.net"
-APIKEY = ""
+APIKEY = "R"
 RateLimit_perMin = "500" #500 Requests per 10 Minutes
 RateLimit_perSec = "10" #10 requests per second
 

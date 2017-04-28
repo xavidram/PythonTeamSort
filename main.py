@@ -31,7 +31,7 @@ def main():
 		with open("ErrorUsers.txt",'w') as errUsr:
 			for p in errorUsers:
 				print(p)
-				errUsr.write(p)
+				errUsr.write(str(p) + '\n')
 
 	#Create the Teams
 	PlayerList.createTeams()
